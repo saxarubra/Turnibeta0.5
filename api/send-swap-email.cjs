@@ -89,6 +89,17 @@ async function processQueue() {
 }
 
 module.exports = async function handler(req, res) {
+  // Header CORS per tutte le richieste
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Gestione preflight (OPTIONS)
+  if (req.method === 'OPTIONS') {
+    res.status(204).end();
+    return;
+  }
+
   const requestId = Math.random().toString(36).substring(7);
   console.log(`[${requestId}] Ricevuta richiesta POST a /api/send-swap-email`);
   console.log(`[${requestId}] Body della richiesta:`, JSON.stringify(req.body, null, 2));
