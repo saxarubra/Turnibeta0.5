@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Supabase Connection</title>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/+esm';
+    
+    const supabaseUrl = 'https://llfdsyejuhfbaujjzofw.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxsZmRzeWVqdWhmYmF1amp6b2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYxOTA1MzgsImV4cCI6MjA1MTc2NjUzOH0.wwEmTIP8KIo9Z9B0rp8FfuxAM4OonaHoxY7oWNQX88M';
+    
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    
+    document.getElementById('status').textContent = 'Connessione a Supabase...';
+    
+    async function testConnection() {
+      try {
+        // Test 1: Verifica se le variabili d'ambiente sono caricate
+        if (!supabaseUrl || !supabaseKey) {
+          throw new Error('Variabili d\'ambiente mancanti: VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY');
+        }
+        
+        document.getElementById('status').textContent = 'Variabili d\'ambiente caricate correttamente';
+        
+        // Test 2: Prova a recuperare i dati dalla tabella users
+        document.getElementById('status').textContent = 'Recupero dati dalla tabella users...';
+        const { data, error } = await supabase
+          .from('users')
+          .select('*')
+          .limit(5);
+          
+        if (error) {
+          throw error;
+        }
+        
+        document.getElementById('status').textContent = 'Connessione riuscita! Dati recuperati con successo.';
+        document.getElementById('data').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error('Errore di connessione:', err);
+        document.getElementById('error').textContent = err.message || 'Errore sconosciuto';
+        document.getElementById('status').textContent = 'Connessione fallita';
+      }
+    }
+    
+    testConnection();
+  </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-top: 20px;
+    }
+    h1 {
+      color: #4f46e5;
+    }
+    .status {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #f3f4f6;
+      border-radius: 4px;
+    }
+    .error {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border-radius: 4px;
+    }
+    .data {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #f3f4f6;
+      border-radius: 4px;
+      overflow: auto;
+      max-height: 300px;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <h1>Test Connessione Supabase</h1>
+  <div class="container">
+    <div class="status">
+      <strong>Stato:</strong> <span id="status">Verifica connessione in corso...</span>
+    </div>
+    <div class="error" id="error" style="display: none;"></div>
+    <div class="data">
+      <strong>Dati recuperati:</strong>
+      <pre id="data">Nessun dato disponibile</pre>
+    </div>
+  </div>
+</body>
+</html> 

@@ -1,0 +1,33 @@
+{
+  "name": "turnibeta0.4",
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "npm run build",
+        "outputDirectory": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "VITE_SUPABASE_URL": "https://llfdsyejuhfbaujjzofw.supabase.co",
+    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmZmRzeWVqdWhmYmF1amp6b2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5NzE5NzAsImV4cCI6MjA1NTU0Nzk3MH0.2Qj5Qj5Qj5Qj5Qj5Qj5Qj5Qj5Qj5Qj5Qj5Qj5Qj5Qj5Q",
+    "VITE_RESEND_API_KEY": "re_123456789",
+    "VITE_EMAIL_FROM": "noreply@turnibeta0.4.com"
+  }
+} 

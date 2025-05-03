@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shift Management</title>
+    <script>
+      // Aggiungiamo un messaggio di debug
+      console.log('Caricamento dell\'applicazione...');
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM caricato completamente');
+      });
+      window.addEventListener('load', () => {
+        console.log('Tutte le risorse sono state caricate');
+      });
+      window.addEventListener('error', (event) => {
+        console.error('Errore durante il caricamento:', event.message);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root">
+      <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+        <h1>Caricamento dell'applicazione...</h1>
+        <p>Se questa pagina rimane visibile per più di qualche secondo, potrebbe esserci un problema con il caricamento dell'applicazione.</p>
+        <p>Apri la console del browser (F12) per vedere eventuali errori.</p>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
