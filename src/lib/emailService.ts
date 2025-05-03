@@ -39,8 +39,9 @@ export async function sendSwapRequestEmail(data: SwapRequestEmailData) {
     try {
       console.log(`Tentativo ${retries + 1} di invio email con dati:`, data);
       
-      const baseUrl = window.location.origin;
-      console.log('Base URL:', baseUrl);
+      // Usa sempre la variabile d'ambiente per il baseUrl
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
+      console.log("VITE_API_BASE_URL:", apiBaseUrl);
 
       const emailHtml = await render(
         SwapRequestEmail({
@@ -49,7 +50,7 @@ export async function sendSwapRequestEmail(data: SwapRequestEmailData) {
           requestedName: data.toEmployee,
           requesterShift: data.fromShift,
           requestedShift: data.toShift,
-          baseUrl: baseUrl,
+          baseUrl: apiBaseUrl,
         })
       );
       console.log('Email template renderizzato');
@@ -74,7 +75,7 @@ export async function sendSwapRequestEmail(data: SwapRequestEmailData) {
       const destinatario = 'saxarubra915@gmail.com';
 
       console.log('Sto per chiamare la fetch verso il backend!');
-      const response = await fetch('http://localhost:4000/api/send-swap-email', {
+      const response = await fetch(`${apiBaseUrl}/api/send-swap-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
