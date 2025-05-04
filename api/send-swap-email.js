@@ -89,15 +89,15 @@ async function processQueue() {
 }
 
 export default async function handler(req, res) {
-  // Header CORS per tutte le richieste
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  // res.setHeader('Access-Control-Allow-Credentials', 'true'); // Rimosso per compatibilità con '*'
 
-  // Gestione preflight (OPTIONS)
+  console.log("Metodo ricevuto:", req.method);
+
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
+    res.status(200).send('');
     return;
   }
 
