@@ -88,57 +88,6 @@ async function processQueue() {
   }
 }
 
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  // res.setHeader('Access-Control-Allow-Credentials', 'true'); // Rimosso per compatibilità con '*'
-
-  console.log("Metodo ricevuto:", req.method);
-
-  if (req.method === 'OPTIONS') {
-    res.status(200).send('');
-    return;
-  }
-
-  const requestId = Math.random().toString(36).substring(7);
-  console.log(`[${requestId}] Ricevuta richiesta POST a /api/send-swap-email`);
-  console.log(`[${requestId}] Body della richiesta:`, JSON.stringify(req.body, null, 2));
-
-  // Verifica la presenza dell'API key
-  const apiKey = process.env.VITE_RESEND_API_KEY || process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error(`[${requestId}] API key non configurata`);
-    res.status(500).json({ error: 'Email service not configured' });
-    return;
-  }
-
-  // Verifica il metodo HTTP
-  if (req.method !== 'POST') {
-    console.log(`[${requestId}] Metodo non consentito:`, req.method);
-    res.status(405).json({ error: 'Method not allowed' });
-    return;
-  }
-
-  // Verifica i campi obbligatori
-  const { to, subject, html } = req.body;
-  if (!to || !subject || !html) {
-    console.log(`[${requestId}] Campi mancanti:`, { 
-      to: to ? 'presente' : 'mancante',
-      subject: subject ? 'presente' : 'mancante',
-      html: html ? 'presente' : 'mancante'
-    });
-    res.status(400).json({ error: 'Missing required fields' });
-    return;
-  }
-
-  // Aggiungi la richiesta alla coda
-  emailQueue.push({ req, res, requestId });
-  
-  // Se non ci sono altre richieste in elaborazione, inizia a processare
-  if (!isProcessing) {
-    processQueue();
-  } else {
-    console.log(`[${requestId}] Richiesta in coda. Posizione: ${emailQueue.length}`);
-  }
+export default function handler(req, res) {
+  res.status(200).json({ ok: true, message: "API attiva!" });
 } 
