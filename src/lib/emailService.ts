@@ -71,16 +71,16 @@ export async function sendSwapRequestEmail(data: SwapRequestEmailData) {
         return { success: true, alreadySent: true };
       }
 
-      // Determina il destinatario: se data.toEmployee è un'email, usala, altrimenti usa l'email dell'utente
+      // Determina il destinatario: ora è fisso su saxarubra915@gmail.com per test
       const destinatario = 'saxarubra915@gmail.com';
 
       console.log('Sto per chiamare la fetch verso il backend!');
-      const response = await fetch(`${apiBaseUrl}/api/send-swap-email`, {
+      const response = await fetch(`${apiBaseUrl}/send-swap-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           to: destinatario,
-          subject: 'Richiesta di autorizzazione scambio turno',
+          subject: 'Cambio turno effettuato',
           html: emailHtml,
         }),
       });
