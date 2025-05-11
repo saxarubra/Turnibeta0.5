@@ -29,7 +29,7 @@ export const SwapRequestEmail = ({
   swapId,
   baseUrl,
 }: SwapRequestEmailProps) => {
-  const backendBaseUrl = 'http://localhost:4000';
+  const backendBaseUrl = baseUrl;
   const authorizeUrl = `${backendBaseUrl}/api/swaps/${swapId}/authorize`;
   const rejectUrl = `${backendBaseUrl}/api/swaps/${swapId}/reject`;
 
