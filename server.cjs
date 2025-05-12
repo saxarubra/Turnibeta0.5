@@ -3,7 +3,7 @@ console.log('DEBUG - VITE_RESEND_API_KEY:', process.env.VITE_RESEND_API_KEY);
 console.log('DEBUG - RESEND_API_KEY:', process.env.RESEND_API_KEY);
 const express = require('express');
 const cors = require('cors');
-const sendSwapEmail = require('./api/send-swap-email.cjs');
+const sendSwapEmail = require('./api/send-swap-email2.js');
 const { supabase } = require('./src/lib/supabase.cjs');
 const app = express();
 const PORT = 4000;

@@ -340,22 +340,20 @@ export default function ShiftList({ initialDate }: { initialDate?: string | null
     const date = matrix[0][col];
 
     setSelectedCells(prev => {
+      // Selezione prima cella
       if (prev.length === 0) {
-        if (isAdmin) {
-          return [[row, col]];
-        } else {
-          if (employeeCode !== currentEmployeeCode) {
-            return prev;
-          }
+        if (isAdmin || employeeCode === currentEmployeeCode) {
           return [[row, col]];
         }
+        return prev;
       }
+      // Selezione seconda cella (diversa dalla prima)
       if (prev.length === 1) {
-        setError(null);
         const [firstRow, firstCol] = prev[0];
         if (firstRow === row && firstCol === col) {
           return [];
         }
+        // Solo admin può selezionare qualsiasi combinazione, utenti normali solo colonne diverse
         if (!isAdmin && firstCol !== col) {
           return prev;
         }
@@ -365,7 +363,7 @@ export default function ShiftList({ initialDate }: { initialDate?: string | null
         const toDate = matrix[0][col];
         const fromShift = getFinalShift(firstRow, firstCol);
         const toShift = getFinalShift(row, col);
-        // Verifica delle 11 ore di stacco per entrambi
+
         if (!isAdmin) {
           const hasEnoughRestFrom = checkRestTime(fromEmployee, fromDate, toShift);
           const hasEnoughRestTo = checkRestTime(toEmployee, toDate, fromShift);
@@ -374,13 +372,14 @@ export default function ShiftList({ initialDate }: { initialDate?: string | null
             return prev;
           }
         }
+
         setPendingSwap({
-          date: isAdmin && fromDate !== toDate ? fromDate : date,
+          date: fromDate,
           fromEmployee,
           toEmployee,
           fromShift,
           toShift,
-          autoAccept: isAdmin && fromDate !== toDate ? true : isAdmin
+          autoAccept: isAdmin
         });
         return [];
       }
