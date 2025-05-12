@@ -19,6 +19,7 @@ interface SwapRequestEmailProps {
   requestedShift: string;
   swapId: string;
   baseUrl: string;
+  swapDate: string;
 }
 
 export const SwapRequestEmail = ({
@@ -28,6 +29,7 @@ export const SwapRequestEmail = ({
   requestedShift,
   swapId,
   baseUrl,
+  swapDate,
 }: SwapRequestEmailProps) => {
   const backendBaseUrl = baseUrl;
   const authorizeUrl = `${backendBaseUrl}/api/swaps/${swapId}/authorize`;
@@ -50,6 +52,9 @@ export const SwapRequestEmail = ({
           </Text>
           
           <Section style={detailsContainer}>
+            <Text style={text}>
+              <strong>Data dello scambio:</strong> {swapDate}
+            </Text>
             <Text style={text}>
               <strong>Richiedente:</strong> {requesterName}
             </Text>

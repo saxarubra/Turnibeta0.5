@@ -51,6 +51,7 @@ export async function sendSwapRequestEmail(data: SwapRequestEmailData) {
           requesterShift: data.fromShift,
           requestedShift: data.toShift,
           baseUrl: apiBaseUrl,
+          swapDate: formatDateForEmail(data.date),
         })
       );
       console.log('Email template renderizzato');
@@ -110,4 +111,10 @@ export async function sendSwapRequestEmail(data: SwapRequestEmailData) {
   }
 
   throw lastError || new Error('Tentativi di invio email esauriti');
+}
+
+function formatDateForEmail(dateStr: string): string {
+  // Se la data è in formato YYYY-MM-DD
+  const [year, month, day] = dateStr.split('-');
+  return `${day}/${month}/${year}`;
 } 
